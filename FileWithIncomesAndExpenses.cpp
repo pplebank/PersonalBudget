@@ -8,11 +8,12 @@ void FileWithIncomesAndExpenses::AddTransaction (string typeOfTransaction,CashFl
     if (typeOfTransaction == "Incomes") {
         nameOfFile = NAME_OF_FILE_WiTH_INCOMES;
         category = "INCOMES";
-
         CheckIfDataBaseOfLoggedUserExists(nameOfFile, category);
+
     } else {
         nameOfFile = NAME_OF_FILE_WITH_EXPENSES;
         category = "EXPENSES";
+        CheckIfDataBaseOfLoggedUserExists(nameOfFile, category);
     }
 
     bool fileExists = xmlFile.Load(nameOfFile);
@@ -25,11 +26,13 @@ void FileWithIncomesAndExpenses::AddTransaction (string typeOfTransaction,CashFl
             xmlFile.IntoElem();
             xmlFile.FindElem(category);
             xmlFile.IntoElem();
-            xmlFile.AddElem("DATE",transactionToAdd.GetDateInStringFormat());
+            xmlFile.AddElem("TRANSFER");
+            xmlFile.AddChildElem("DATE",transactionToAdd.GetDateInStringFormat());
             xmlFile.AddChildElem("VALUE",AuxiliaryMethods::FloatIntoString(transactionToAdd.GetValue()));
             xmlFile.Save(nameOfFile);
         }
     }
+    return;
 }
 
 vector <CashFlow> FileWithIncomesAndExpenses::LoadLoggedUserData(string typeOfLoadingData) {
@@ -67,16 +70,26 @@ vector <CashFlow> FileWithIncomesAndExpenses::LoadLoggedUserData(string typeOfLo
             xmlFile.IntoElem();
             xmlFile.FindElem(category);
             xmlFile.IntoElem();
-            xmlFile.FindElem("DATE");
-            dateInString = xmlFile.GetData();
-            cashFlow = GetDateFromOneString(dateInString);
-            xmlFile.FindElem("VALUE");
-            valueInString = xmlFile.GetData();
-            cashFlow.SetValue(AuxiliaryMethods::StringIntoFloat(valueInString));
-            transfers.push_back(cashFlow);
+            while( xmlFile.FindElem("TRANSFER")) {
+                xmlFile.FindChildElem("DATE");
+                dateInString = xmlFile.GetChildData();
+                cashFlow = GetDateFromOneString(dateInString);
+                xmlFile.FindChildElem("VALUE");
+                valueInString = xmlFile.GetChildData();
+                cashFlow.SetValue(AuxiliaryMethods::StringIntoFloat(valueInString));
+
+                transfers.push_back(cashFlow);
+            }
         }
     }
 
+
+    //TEST//
+    /*
+    for (auto itr = transfers.begin(); itr != transfers.end(); itr++) {
+        itr->ShowAllData();
+    }
+    */
     return transfers;
 }
 
@@ -85,6 +98,7 @@ void FileWithIncomesAndExpenses::CreateFileWithBudget(string nameOfFile) {
     CMarkup xmlFile;
     xmlFile.AddElem("USERS");
     xmlFile.Save(nameOfFile);
+    return;
 }
 
 void FileWithIncomesAndExpenses::CreateLoggedUserDataBase (string nameOfFile, string category) {
@@ -96,7 +110,7 @@ void FileWithIncomesAndExpenses::CreateLoggedUserDataBase (string nameOfFile, st
     xmlFile.AddChildElem("ID",AuxiliaryMethods::IntIntoString(LoggedUserId));
     xmlFile.AddChildElem(category);
     xmlFile.Save(nameOfFile);
-
+    return;
 }
 
 
@@ -155,8 +169,8 @@ CashFlow FileWithIncomesAndExpenses::GetDateFromOneString (string dateInString) 
     int dayInt = AuxiliaryMethods::StringIntoInt(Day);
 
     cashFlowWithDate.SetDay(dayInt);
-    cashFlowWithDate.SetDay(monthInt);
-    cashFlowWithDate.SetDay(yearInt);
+    cashFlowWithDate.SetMonth(monthInt);
+    cashFlowWithDate.SetYear(yearInt);
 
     return cashFlowWithDate;
 }

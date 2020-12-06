@@ -26,6 +26,7 @@ public:
     int GetYear();
     float GetValue();
     string GetDateInStringFormat();
+    void ShowAllData();
 
 
 };

@@ -51,3 +51,9 @@ string CashFlow::GetDateInStringFormat()
    date +=yearString+"/"+monthString+"/"+dayString;
    return date;
 }
+
+void CashFlow::ShowAllData()
+{
+    cout <<Year<<"/"<<Month<<"/"<<Day<< "Value of transfer is: "<<Value<<endl;
+
+}

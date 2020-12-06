@@ -10,6 +10,7 @@
 #include "AuxiliaryMethods.h"
 #include "FileWithIncomesAndExpenses.h"
 #include "CashFlow.h"
+#include "DataChecker.h"
 
 
 using namespace std;
@@ -25,16 +26,6 @@ private:
     int LoggedUserId;
     FileWithIncomesAndExpenses fileWithIncomesAndExpenses;
     CashFlow GetTransactionData (string TypeOfTransaction);
-    bool checkIfNumberOfDaysIsCorrect (string dayString, string monthString, string yearString);
-    bool CheckIfEnteredDateIsInCorrectForm (string enteredDate);
-    bool CheckIfEnteredYearIsCorrect (string Year);
-    bool CheckIfEnteredMonthIsCorrect (string Month);
-    bool CheckIfEnteredDayIsCorrect (string Day);
-    bool CheckIfEnteredValueIsInCorrectForm (string enteredValue);
-    bool IfEnteredValueIsInCorrectForm (string Value);
-    string IfIsCommaInsteadFullStop (string Value);
-    string CheckIfThereIsMinusSymbolBeforeValue (string Value);
-    bool ifStringConsistOnlyDigits(const string& number);
     CashFlow SetDataIntoRecord(string enteredDate, string value);
 
 public:
@@ -46,6 +37,9 @@ public:
     void AddExpense();
     void ShowBalance ();
     void LoadAllDataOfLoggedUser();
+
+   void TEST_ShowAllIncomes();
+   void TEST_ShowAllExpenses();
 };
 
 #endif

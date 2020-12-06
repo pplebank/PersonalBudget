@@ -17,6 +17,7 @@ class FileWithIncomesAndExpenses :public XMLFile {
     void CreateLoggedUserDataBase (string nameOfFile, string category);
     void CreateFileWithBudget(string nameOfFile);
     CashFlow GetDateFromOneString (string dateInString);
+
 public:
     FileWithIncomesAndExpenses (string nameOfFileWithIncomes, string nameOfFileWithExpenses, int Id) : XMLFile(nameOfFileWithIncomes,nameOfFileWithExpenses) {
         LoggedUserId = Id;

@@ -1,21 +1,21 @@
 #include "BudgetManager.h"
 
 void BudgetManager::LoadAllDataOfLoggedUser () {
-    incomes = fileWithIncomesAndExpenses.LoadLoggedUserData("Incomes");
-    expenses = fileWithIncomesAndExpenses.LoadLoggedUserData("Expenses");
+   incomes = fileWithIncomesAndExpenses.LoadLoggedUserData("Incomes");
+   expenses = fileWithIncomesAndExpenses.LoadLoggedUserData("Expenses");
 }
 
 
 void BudgetManager::AddIncome() {
     CashFlow cashFlow;
-    string typeOfTransaction = "Income";
+    string typeOfTransaction = "Incomes";
     cashFlow = GetTransactionData(typeOfTransaction);
     incomes.push_back(cashFlow);
     fileWithIncomesAndExpenses.AddTransaction(typeOfTransaction,cashFlow);
 }
 void BudgetManager::AddExpense() {
     CashFlow cashFlow;
-    string typeOfTransaction = "Expense";
+    string typeOfTransaction = "Expenses";
     cashFlow = GetTransactionData(typeOfTransaction);
     expenses.push_back(cashFlow);
     fileWithIncomesAndExpenses.AddTransaction(typeOfTransaction, cashFlow);
@@ -103,5 +103,6 @@ void BudgetManager::TEST_ShowAllIncomes() {
 }
 void BudgetManager::TEST_ShowAllExpenses() {
     for (auto itr = expenses.begin(); itr != expenses.end(); itr++) {
+         itr->ShowAllData();
     }
 }

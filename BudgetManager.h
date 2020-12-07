@@ -29,8 +29,9 @@ private:
     CashFlow SetDataIntoRecord(string enteredDate, string value);
 
 public:
-    BudgetManager(string nameOfFileWithIncomes, string nameOfFileWithExpenses, int userId) : fileWithIncomesAndExpenses(nameOfFileWithIncomes,nameOfFileWithExpenses, userId),
-    LoggedUserId(userId) {
+    BudgetManager(string nameOfFileWithIncomes, string nameOfFileWithExpenses, int userId) : LoggedUserId(userId),
+     fileWithIncomesAndExpenses(nameOfFileWithIncomes,nameOfFileWithExpenses, userId)
+ {
         LoadAllDataOfLoggedUser();
     };
     void AddIncome();

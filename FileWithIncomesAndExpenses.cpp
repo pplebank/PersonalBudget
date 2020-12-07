@@ -42,7 +42,6 @@ vector <CashFlow> FileWithIncomesAndExpenses::LoadLoggedUserData(string typeOfLo
     string category;
     string dateInString;
     string valueInString;
-    vector <CashFlow> transfers;
     CashFlow cashFlow;
 
     if (typeOfLoadingData == "Incomes") {
@@ -77,19 +76,17 @@ vector <CashFlow> FileWithIncomesAndExpenses::LoadLoggedUserData(string typeOfLo
                 xmlFile.FindChildElem("VALUE");
                 valueInString = xmlFile.GetChildData();
                 cashFlow.SetValue(AuxiliaryMethods::StringIntoFloat(valueInString));
-
                 transfers.push_back(cashFlow);
             }
         }
     }
-
 
     //TEST//
     /*
     for (auto itr = transfers.begin(); itr != transfers.end(); itr++) {
         itr->ShowAllData();
     }
-    */
+*/
     return transfers;
 }
 
@@ -174,4 +171,3 @@ CashFlow FileWithIncomesAndExpenses::GetDateFromOneString (string dateInString) 
 
     return cashFlowWithDate;
 }
-

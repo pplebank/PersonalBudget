@@ -12,6 +12,7 @@ using namespace std;
 
 class FileWithIncomesAndExpenses :public XMLFile {
     int LoggedUserId;
+        vector <CashFlow> transfers;
     bool CheckIfDataBaseOfLoggedUserExists (string nameOfFile, string category);
     bool IfFileExists(string nameOfFile);
     void CreateLoggedUserDataBase (string nameOfFile, string category);
@@ -19,8 +20,7 @@ class FileWithIncomesAndExpenses :public XMLFile {
     CashFlow GetDateFromOneString (string dateInString);
 
 public:
-    FileWithIncomesAndExpenses (string nameOfFileWithIncomes, string nameOfFileWithExpenses, int Id) : XMLFile(nameOfFileWithIncomes,nameOfFileWithExpenses) {
-        LoggedUserId = Id;
+    FileWithIncomesAndExpenses (string nameOfFileWithIncomes, string nameOfFileWithExpenses, int Id) : XMLFile(nameOfFileWithIncomes,nameOfFileWithExpenses), LoggedUserId(Id) {
     };
     void AddTransaction (string typeOfTransaction,CashFlow transactionToAdd);
     vector <CashFlow> LoadLoggedUserData(string typeOfLoadingData);

@@ -9,12 +9,14 @@ int main() {
     personalBudget.ListAllUsers();
     // personalBudget.RegisterUser();
     //  personalBudget.RegisterUser();
-      personalBudget.LogIn();
-      personalBudget.AddIncome();
-      personalBudget.AddIncome();
-     personalBudget.AddIncome();
-  //  personalBudget.TEST_ShowAllIncomes();
-   //    personalBudget.TEST_ShowAllExpenses();
+    personalBudget.LogIn();
+    personalBudget.TEST_ShowAllIncomes();
+    personalBudget.sortContainersWithData();
+    cout<<"-------------------------------------"<<endl;
+    personalBudget.TEST_ShowAllIncomes();
+    //  personalBudget.AddIncome();
+    //   personalBudget.AddIncome();
+    // personalBudget.AddIncome();
     // personalBudget.ChangePasswordOfLoggedUser();
 
 

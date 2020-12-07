@@ -11,6 +11,7 @@
 #include "FileWithIncomesAndExpenses.h"
 #include "CashFlow.h"
 #include "DataChecker.h"
+#include "DateComparision.h"
 
 
 using namespace std;
@@ -30,17 +31,16 @@ private:
 
 public:
     BudgetManager(string nameOfFileWithIncomes, string nameOfFileWithExpenses, int userId) : LoggedUserId(userId),
-     fileWithIncomesAndExpenses(nameOfFileWithIncomes,nameOfFileWithExpenses, userId)
- {
+        fileWithIncomesAndExpenses(nameOfFileWithIncomes,nameOfFileWithExpenses, userId) {
         LoadAllDataOfLoggedUser();
     };
     void AddIncome();
     void AddExpense();
     void ShowBalance ();
     void LoadAllDataOfLoggedUser();
-
-   void TEST_ShowAllIncomes();
-   void TEST_ShowAllExpenses();
+    void TEST_ShowAllIncomes();
+    void TEST_ShowAllExpenses();
+    void sortUnsortedContainerWithTransfers();
 };
 
 #endif

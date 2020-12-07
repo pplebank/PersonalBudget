@@ -42,6 +42,7 @@ vector <CashFlow> FileWithIncomesAndExpenses::LoadLoggedUserData(string typeOfLo
     string category;
     string dateInString;
     string valueInString;
+    vector <CashFlow> transfers;
     CashFlow cashFlow;
 
     if (typeOfLoadingData == "Incomes") {
@@ -86,7 +87,7 @@ vector <CashFlow> FileWithIncomesAndExpenses::LoadLoggedUserData(string typeOfLo
     for (auto itr = transfers.begin(); itr != transfers.end(); itr++) {
         itr->ShowAllData();
     }
-*/
+    */
     return transfers;
 }
 

@@ -1,8 +1,13 @@
 #include "BudgetManager.h"
 
 void BudgetManager::LoadAllDataOfLoggedUser () {
-   incomes = fileWithIncomesAndExpenses.LoadLoggedUserData("Incomes");
-   expenses = fileWithIncomesAndExpenses.LoadLoggedUserData("Expenses");
+    incomes = fileWithIncomesAndExpenses.LoadLoggedUserData("Incomes");
+    expenses = fileWithIncomesAndExpenses.LoadLoggedUserData("Expenses");
+}
+
+void BudgetManager::sortUnsortedContainerWithTransfers() {
+    incomes = DateComparision::SortVectorByDates(incomes);
+    expenses = DateComparision::SortVectorByDates(expenses);
 }
 
 
@@ -93,8 +98,6 @@ CashFlow BudgetManager::SetDataIntoRecord(string enteredDate, string enteredValu
     return cashFlow;
 }
 
-
-
 void BudgetManager::TEST_ShowAllIncomes() {
     for (auto itr = incomes.begin(); itr != incomes.end(); itr++) {
         itr->ShowAllData();
@@ -103,6 +106,6 @@ void BudgetManager::TEST_ShowAllIncomes() {
 }
 void BudgetManager::TEST_ShowAllExpenses() {
     for (auto itr = expenses.begin(); itr != expenses.end(); itr++) {
-         itr->ShowAllData();
+        itr->ShowAllData();
     }
 }

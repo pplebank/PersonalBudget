@@ -12,7 +12,6 @@ using namespace std;
 
 class FileWithIncomesAndExpenses :public XMLFile {
     int LoggedUserId;
-        vector <CashFlow> transfers;
     bool CheckIfDataBaseOfLoggedUserExists (string nameOfFile, string category);
     bool IfFileExists(string nameOfFile);
     void CreateLoggedUserDataBase (string nameOfFile, string category);

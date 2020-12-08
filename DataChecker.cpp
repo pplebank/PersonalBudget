@@ -72,7 +72,35 @@ bool DataChecker::CheckIfEnteredDateIsInCorrectForm (string enteredDate) {
     if (!checkIfNumberOfDaysIsCorrect(Day,Month,Year)) {
         return false;
     }
+    if(!checkIfDateIsNotInFuture(Day,Month,Year)) {
+        cout<<"Entered Date is in future! Please enter earlier Date."<<endl;
+        return false;
+    }
     return true;
+}
+
+
+bool DataChecker::checkIfDateIsNotInFuture(string dayString,string monthString,string yearString) {
+
+    CashFlow enteredDate;
+    CashFlow todaysDate;
+
+    //SAME CONVERSION AS IN CHECKING DAYS NUMBER//////
+    int year = AuxiliaryMethods::StringIntoInt(yearString);
+    int month = AuxiliaryMethods::StringIntoInt(monthString);
+    int day = AuxiliaryMethods::StringIntoInt(dayString);
+
+    enteredDate.SetDay(day);
+    enteredDate.SetMonth(month);
+    enteredDate.SetYear(year);
+
+    todaysDate = DateGetter::GetTodaysDate();
+
+    if (enteredDate<=todaysDate) {
+        return true;
+    }
+
+    return false;
 }
 
 
@@ -85,6 +113,7 @@ bool DataChecker::CheckIfEnteredYearIsCorrect (string Year) {
     }
     int YearInt = AuxiliaryMethods::StringIntoInt(Year);
     if (YearInt < 2000) {
+            cout<<"You entered Date, which is before 2000. Program is not operating Dates before 2000."<<endl;
         return false;
     }
     return true;

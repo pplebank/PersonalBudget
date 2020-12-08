@@ -26,6 +26,10 @@ public:
     float GetValue();
     string GetDateInStringFormat();
     void ShowAllData();
+    bool operator<(const CashFlow &d1);
+    bool operator== (const CashFlow &d1);
+    bool  operator<=(const CashFlow &d1);
+    bool operator +=(float &number);
 
 
 };

@@ -5,6 +5,8 @@
 #include <iostream>
 #include "User.h"
 #include "AuxiliaryMethods.h"
+#include "DateGetter.h"
+#include "CashFlow.h"
 
 
 using namespace std;
@@ -18,6 +20,7 @@ class DataChecker {
    static string IfIsCommaInsteadFullStop (string Value);
    static string CheckIfThereIsMinusSymbolBeforeValue (string Value);
    static bool ifStringConsistOnlyDigits(const string& number);
+    static bool checkIfDateIsNotInFuture(string Day,string Month,string Year);
 
 public:
     static string CorrectFormOfValue(string value);

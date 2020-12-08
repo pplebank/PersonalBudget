@@ -11,18 +11,18 @@
 #include "FileWithIncomesAndExpenses.h"
 #include "CashFlow.h"
 #include "DataChecker.h"
-#include "DateComparision.h"
+#include "DateGetter.h"
 
 
 using namespace std;
 
 class BudgetManager {
 
-
 private:
 
     vector <CashFlow> incomes;
     vector <CashFlow> expenses;
+    vector <CashFlow> SortVectorByDates (vector <CashFlow> unsortedVector);
 
     int LoggedUserId;
     FileWithIncomesAndExpenses fileWithIncomesAndExpenses;
@@ -41,6 +41,10 @@ public:
     void TEST_ShowAllIncomes();
     void TEST_ShowAllExpenses();
     void sortUnsortedContainerWithTransfers();
+    void ShowBalance (CashFlow FirstDay, CashFlow LastDay);
+    void ShowBalanceForThisMonth();
+    void ShowBalanceForLastMonth();
+    void ShowBalanceForSelectedPeriod();
 };
 
 #endif

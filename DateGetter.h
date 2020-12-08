@@ -13,15 +13,15 @@ using namespace std;
 
 class DateGetter {
 
-    int GetLastDayOfMonth (int month, int year);
-    CashFlow GetDateOfDecemberLastYear(int month, int year);
+   static int GetLastDayOfMonth (int month, int year);
+   static CashFlow GetDateOfDecemberLastYear(int month, int year);
 
 public:
-    CashFlow GetTodaysDate();
-    CashFlow GetDateOfFirstDayOfMonth();
-    CashFlow GetDateOfLastDayOfMonth();
-    CashFlow GetFirstDayOfLastMonth();
-    CashFlow GetLastDayOfLastMonth();
+   static CashFlow GetTodaysDate();
+   static CashFlow GetDateOfFirstDayOfMonth();
+   static CashFlow GetDateOfLastDayOfMonth();
+   static CashFlow GetFirstDayOfLastMonth();
+   static CashFlow GetLastDayOfLastMonth();
 };
 
 #endif

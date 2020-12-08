@@ -28,6 +28,7 @@ private:
     FileWithIncomesAndExpenses fileWithIncomesAndExpenses;
     CashFlow GetTransactionData (string TypeOfTransaction);
     CashFlow SetDataIntoRecord(string enteredDate, string value);
+    CashFlow GetDateForShowing(string typeOfGettingDate);
 
 public:
     BudgetManager(string nameOfFileWithIncomes, string nameOfFileWithExpenses, int userId) : LoggedUserId(userId),

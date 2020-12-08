@@ -31,28 +31,27 @@ void BudgetManager::AddExpense() {
     fileWithIncomesAndExpenses.AddTransaction(typeOfTransaction, cashFlow);
 }
 
-void BudgetManager::ShowBalanceForThisMonth()
-{
-CashFlow firstDay = DateGetter::GetDateOfFirstDayOfMonth();
-CashFlow lastDay = DateGetter::GetTodaysDate();
-ShowBalance(firstDay,lastDay);
+void BudgetManager::ShowBalanceForThisMonth() {
+    CashFlow firstDay = DateGetter::GetDateOfFirstDayOfMonth();
+    CashFlow lastDay = DateGetter::GetTodaysDate();
+    ShowBalance(firstDay,lastDay);
 }
 
 
-void BudgetManager::ShowBalanceForLastMonth()
-{
-CashFlow firstDay = DateGetter::GetFirstDayOfLastMonth();
-CashFlow lastDay = DateGetter::GetLastDayOfLastMonth();
-ShowBalance(firstDay,lastDay);
+void BudgetManager::ShowBalanceForLastMonth() {
+    CashFlow firstDay = DateGetter::GetFirstDayOfLastMonth();
+    CashFlow lastDay = DateGetter::GetLastDayOfLastMonth();
+    ShowBalance(firstDay,lastDay);
 
 
 }
 
-void BudgetManager::ShowBalanceForSelectedPeriod()
-{
-CashFlow firstDay = DateGetter::GetDateOfFirstDayOfMonth();
-CashFlow lastDay = DateGetter::GetTodaysDate();
-ShowBalance(firstDay,lastDay);
+void BudgetManager::ShowBalanceForSelectedPeriod() {
+    string firstDayDescription = "first selected period day.";
+        string lastDayDescription = "last selected period day.";
+    CashFlow firstDay = GetDateForShowing(firstDayDescription);
+    CashFlow lastDay = GetDateForShowing(lastDayDescription);
+    ShowBalance(firstDay,lastDay);
 
 
 }
@@ -90,8 +89,6 @@ void BudgetManager::ShowBalance (CashFlow FirstDay, CashFlow LastDay) {
     return;
 }
 
-void ShowBalance ();
-
 CashFlow BudgetManager::GetTransactionData (string typeOfTransaction) {
 
     CashFlow cashFlow;
@@ -121,56 +118,77 @@ CashFlow BudgetManager::GetTransactionData (string typeOfTransaction) {
     }
 }
 
-CashFlow BudgetManager::SetDataIntoRecord(string enteredDate, string enteredValue) {
+CashFlow BudgetManager::GetDateForShowing(string typeOfGettingDate) {
     CashFlow cashFlow;
-    string Year;
-    string Month;
-    string Day;
-    string correctedValue;
-    int NumberOfSingleEnteredData = 1;
-    string Number ="";
-    for (int CharPosition = 0; CharPosition <= enteredDate.length(); CharPosition++) {
-        if ((enteredDate[CharPosition] != '-')&&(CharPosition != enteredDate.length())) {
-            Number += enteredDate[CharPosition];
+    string date;
+    string value = "0.0";
+    bool ifcorrect = false;
+    while (!ifcorrect) {
+        cout << "Enter Date of "<<typeOfGettingDate<<endl;
+        cout <<"Please enter in yyyy-mm-dd format, e.g 2015-04-24"<<endl;
+        date = AuxiliaryMethods::LoadLine();
+        if (DataChecker::CheckIfEnteredDateIsInCorrectForm(date)) {
+            cout <<"Date entered in correct form."<<endl;
+            cashFlow = SetDataIntoRecord(date,value);
+            ifcorrect = true;
+            return cashFlow;
         } else {
-            switch(NumberOfSingleEnteredData) {
-            case 1:
-                Year = Number;
-                break;
-            case 2:
-                Month = Number;
-                break;
-            case 3:
-                Day = Number;
-                break;
-            }
-            Number = "";
-            NumberOfSingleEnteredData++;
+            cout<<"Date entered in wrong format. Try again."<<endl;
         }
     }
-    int yearInt = AuxiliaryMethods::StringIntoInt(Year);
-    int monthInt = AuxiliaryMethods::StringIntoInt(Month);
-    int dayInt = AuxiliaryMethods::StringIntoInt(Day);
-
-    cashFlow.SetDay(dayInt);
-    cashFlow.SetMonth(monthInt);
-    cashFlow.SetYear(yearInt);
-
-    correctedValue = DataChecker::CorrectFormOfValue(enteredValue);
-    float valueFloat = AuxiliaryMethods::StringIntoFloat(correctedValue);
-    cashFlow.SetValue(valueFloat);
-
-    return cashFlow;
 }
 
-void BudgetManager::TEST_ShowAllIncomes() {
-    for (auto itr = incomes.begin(); itr != incomes.end(); itr++) {
-        itr->ShowAllData();
+
+    CashFlow BudgetManager::SetDataIntoRecord(string enteredDate, string enteredValue) {
+        CashFlow cashFlow;
+        string Year;
+        string Month;
+        string Day;
+        string correctedValue;
+        int NumberOfSingleEnteredData = 1;
+        string Number ="";
+        for (int CharPosition = 0; CharPosition <= enteredDate.length(); CharPosition++) {
+            if ((enteredDate[CharPosition] != '-')&&(CharPosition != enteredDate.length())) {
+                Number += enteredDate[CharPosition];
+            } else {
+                switch(NumberOfSingleEnteredData) {
+                case 1:
+                    Year = Number;
+                    break;
+                case 2:
+                    Month = Number;
+                    break;
+                case 3:
+                    Day = Number;
+                    break;
+                }
+                Number = "";
+                NumberOfSingleEnteredData++;
+            }
+        }
+        int yearInt = AuxiliaryMethods::StringIntoInt(Year);
+        int monthInt = AuxiliaryMethods::StringIntoInt(Month);
+        int dayInt = AuxiliaryMethods::StringIntoInt(Day);
+
+        cashFlow.SetDay(dayInt);
+        cashFlow.SetMonth(monthInt);
+        cashFlow.SetYear(yearInt);
+
+        correctedValue = DataChecker::CorrectFormOfValue(enteredValue);
+        float valueFloat = AuxiliaryMethods::StringIntoFloat(correctedValue);
+        cashFlow.SetValue(valueFloat);
+
+        return cashFlow;
     }
 
-}
-void BudgetManager::TEST_ShowAllExpenses() {
-    for (auto itr = expenses.begin(); itr != expenses.end(); itr++) {
-        itr->ShowAllData();
+    void BudgetManager::TEST_ShowAllIncomes() {
+        for (auto itr = incomes.begin(); itr != incomes.end(); itr++) {
+            itr->ShowAllData();
+        }
+
     }
-}
+    void BudgetManager::TEST_ShowAllExpenses() {
+        for (auto itr = expenses.begin(); itr != expenses.end(); itr++) {
+            itr->ShowAllData();
+        }
+    }

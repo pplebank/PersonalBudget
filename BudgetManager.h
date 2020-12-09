@@ -12,6 +12,7 @@
 #include "CashFlow.h"
 #include "DataChecker.h"
 #include "DateGetter.h"
+#include "UserInterface.h"
 
 
 using namespace std;
@@ -23,11 +24,15 @@ private:
     vector <CashFlow> incomes;
     vector <CashFlow> expenses;
     vector <CashFlow> SortVectorByDates (vector <CashFlow> unsortedVector);
+    string TypeOfIncomesCategory(int choice);
+    string TypeOfExpensesCategory(int choice);
 
     int LoggedUserId;
+    int lastIncomeId;
+    int lastExpenseId;
     FileWithIncomesAndExpenses fileWithIncomesAndExpenses;
     CashFlow GetTransactionData (string TypeOfTransaction);
-    CashFlow SetDataIntoRecord(string enteredDate, string value);
+    CashFlow SetDataIntoRecord(string enteredDate, string value, string category, int lastId);
     CashFlow GetDateForShowing(string typeOfGettingDate);
 
 public:

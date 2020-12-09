@@ -8,10 +8,13 @@
 using namespace std;
 
 class UserInterface {
-    static char LoadChar();
+     char LoadChar();
 public:
-    static char selectOptionFromMainMenu();
-    static char selectOptionFromUserMenu();
+     char selectOptionFromMainMenu();
+     char selectOptionFromUserMenu();
+     char CategoryExpensesMenu();
+     char CategoryIncomesMenu();
+
 };
 
 

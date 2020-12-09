@@ -32,7 +32,7 @@ public:
     void TEST_ShowAllIncomes();
     void TEST_ShowAllExpenses();
     bool IfUserIsLogged();
-    bool LogOut();
+    void LogOut();
 
     ~PersonalBudget() {
         delete budgetManager;

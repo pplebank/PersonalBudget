@@ -60,7 +60,7 @@ bool PersonalBudget::IfUserIsLogged()
     return userManager.IfUserIsLogged();
 }
 
-bool PersonalBudget::LogOut()
+void PersonalBudget::LogOut()
 {
     userManager.LogOutUser();
     delete budgetManager;

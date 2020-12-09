@@ -7,13 +7,11 @@ void FileWithIncomesAndExpenses::AddTransaction (string typeOfTransaction,CashFl
     string nameOfFile;
     if (typeOfTransaction == "Incomes") {
         nameOfFile = NAME_OF_FILE_WiTH_INCOMES;
-        category = "INCOMES";
-        CheckIfDataBaseOfLoggedUserExists(nameOfFile, category);
+        CheckIfDataBaseOfLoggedUserExists(nameOfFile);
 
     } else {
         nameOfFile = NAME_OF_FILE_WITH_EXPENSES;
-        category = "EXPENSES";
-        CheckIfDataBaseOfLoggedUserExists(nameOfFile, category);
+        CheckIfDataBaseOfLoggedUserExists(nameOfFile);
     }
 
     bool fileExists = xmlFile.Load(nameOfFile);
@@ -24,9 +22,9 @@ void FileWithIncomesAndExpenses::AddTransaction (string typeOfTransaction,CashFl
             xmlFile.FindChildElem("ID");
         if (xmlFile.GetChildData() == AuxiliaryMethods::IntIntoString(LoggedUserId)) {
             xmlFile.IntoElem();
-            xmlFile.FindElem(category);
-            xmlFile.IntoElem();
             xmlFile.AddElem("TRANSFER");
+            xmlFile.AddChildElem("CATEGORY", transactionToAdd.GetCategory());
+            xmlFile.AddChildElem("ID_TRANSACTION",AuxiliaryMethods::IntIntoString(transactionToAdd.GetIdTransaction()));
             xmlFile.AddChildElem("DATE",transactionToAdd.GetDateInStringFormat());
             xmlFile.AddChildElem("VALUE",AuxiliaryMethods::FloatIntoString(transactionToAdd.GetValue()));
             xmlFile.Save(nameOfFile);
@@ -42,24 +40,24 @@ vector <CashFlow> FileWithIncomesAndExpenses::LoadLoggedUserData(string typeOfLo
     string category;
     string dateInString;
     string valueInString;
+    string idInString;
+    int idInInt;
+    lastSavedIdFromFile = 0;
     vector <CashFlow> transfers;
     CashFlow cashFlow;
 
     if (typeOfLoadingData == "Incomes") {
         nameOfFile = NAME_OF_FILE_WiTH_INCOMES;
-        category = "INCOMES";
     } else {
         nameOfFile = NAME_OF_FILE_WITH_EXPENSES;
-        category = "EXPENSES";
     }
     bool fileExists = xmlFile.Load(nameOfFile);
     if (!fileExists) {
         CreateFileWithBudget(nameOfFile);
         xmlFile.Load(nameOfFile);
     }
-
-    if (!CheckIfDataBaseOfLoggedUserExists(nameOfFile,category)) {
-        CreateLoggedUserDataBase(nameOfFile,category);
+    if (!CheckIfDataBaseOfLoggedUserExists(nameOfFile)) {
+        CreateLoggedUserDataBase(nameOfFile);
     }
 
     xmlFile.FindElem("USERS");
@@ -68,26 +66,40 @@ vector <CashFlow> FileWithIncomesAndExpenses::LoadLoggedUserData(string typeOfLo
         xmlFile.FindChildElem("ID");
         if (xmlFile.GetChildData() == AuxiliaryMethods::IntIntoString(LoggedUserId)) {
             xmlFile.IntoElem();
-            xmlFile.FindElem(category);
-            xmlFile.IntoElem();
             while( xmlFile.FindElem("TRANSFER")) {
+                xmlFile.FindChildElem("CATEGORY");
+                category = xmlFile.GetChildData();
+                xmlFile.FindChildElem("ID_TRANSACTION");
+                idInString = xmlFile.GetChildData();
                 xmlFile.FindChildElem("DATE");
                 dateInString = xmlFile.GetChildData();
                 cashFlow = GetDateFromOneString(dateInString);
                 xmlFile.FindChildElem("VALUE");
                 valueInString = xmlFile.GetChildData();
                 cashFlow.SetValue(AuxiliaryMethods::StringIntoFloat(valueInString));
+                cashFlow.SetCategory(category);
+                idInInt = AuxiliaryMethods::StringIntoInt(idInString);
+
+                if (lastSavedIdFromFile < idInInt) {
+                    lastSavedIdFromFile = idInInt;
+                }
+                cashFlow.SetIdTransaction(idInInt);
                 transfers.push_back(cashFlow);
             }
+            xmlFile.OutOfElem();
+        } else {
+            xmlFile.IntoElem();
+            while( xmlFile.FindElem("TRANSFER")) {
+                xmlFile.FindChildElem("ID_TRANSACTION");
+                idInString = xmlFile.GetChildData();
+                idInInt = AuxiliaryMethods::StringIntoInt(idInString);
+                if (lastSavedIdFromFile < idInInt) {
+                    lastSavedIdFromFile = idInInt;
+                }
+            }
+            xmlFile.OutOfElem();
         }
     }
-
-    //TEST//
-    /*
-    for (auto itr = transfers.begin(); itr != transfers.end(); itr++) {
-        itr->ShowAllData();
-    }
-    */
     return transfers;
 }
 
@@ -99,20 +111,19 @@ void FileWithIncomesAndExpenses::CreateFileWithBudget(string nameOfFile) {
     return;
 }
 
-void FileWithIncomesAndExpenses::CreateLoggedUserDataBase (string nameOfFile, string category) {
+void FileWithIncomesAndExpenses::CreateLoggedUserDataBase (string nameOfFile) {
     CMarkup xmlFile;
     xmlFile.Load(nameOfFile);
     xmlFile.FindElem("USERS");
     xmlFile.IntoElem();
     xmlFile.AddElem("USER");
     xmlFile.AddChildElem("ID",AuxiliaryMethods::IntIntoString(LoggedUserId));
-    xmlFile.AddChildElem(category);
     xmlFile.Save(nameOfFile);
     return;
 }
 
 
-bool FileWithIncomesAndExpenses::CheckIfDataBaseOfLoggedUserExists (string nameOfFile, string category) {
+bool FileWithIncomesAndExpenses::CheckIfDataBaseOfLoggedUserExists (string nameOfFile) {
     CMarkup xmlFile;
 
     bool fileExists = xmlFile.Load(nameOfFile);
@@ -122,15 +133,16 @@ bool FileWithIncomesAndExpenses::CheckIfDataBaseOfLoggedUserExists (string nameO
             while(xmlFile.FindElem("USER")) {
                 xmlFile.FindChildElem("ID");
                 if (xmlFile.GetChildData() == AuxiliaryMethods::IntIntoString(LoggedUserId)) {
-                    xmlFile.IntoElem();
-                    if (xmlFile.FindElem(category)) {
-                        return true;
-                    }
+                    return true;
                 }
             }
         }
     }
     return false;
+}
+
+int FileWithIncomesAndExpenses::GetLastSavedId() {
+    return lastSavedIdFromFile;
 }
 
 

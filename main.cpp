@@ -27,7 +27,6 @@ int main() {
 
     char choice;
 
-
         PersonalBudget personalBudget("USERS.xml","INCOMES.xml","EXPENSES.xml");
         UserInterface userInterface;
 

@@ -26,11 +26,28 @@ float CashFlow::GetValue() {
     return Value;
 }
 
-CashFlow::CashFlow(int y, int m, int d, float v) {
+void CashFlow::SetIdTransaction (int newId) {
+    IdTransaction = newId;
+}
+void CashFlow::SetCategory(string newCategory) {
+    Category = newCategory;
+}
+
+int CashFlow::GetIdTransaction () {
+    return IdTransaction;
+}
+string CashFlow::GetCategory() {
+    return Category;
+}
+
+
+CashFlow::CashFlow(int y, int m, int d, float v,int i, string c) {
     Day = d;
     Month = m;
     Year = y;
     Value =v;
+    IdTransaction = i;
+    Category = c;
 }
 
 string CashFlow::GetDateInStringFormat() {
@@ -52,10 +69,10 @@ bool  CashFlow::operator<(const CashFlow &d1) {
     if (this->Year < d1.GetYear())
         return true;
 
-     if ((this->Year == d1.GetYear())&&(this->Month < d1.GetMonth()))
+    if ((this->Year == d1.GetYear())&&(this->Month < d1.GetMonth()))
         return true;
 
-      if ((this->Year == d1.GetYear())&&(this->Month == d1.GetMonth())&&(this->Day < d1.GetDay()))
+    if ((this->Year == d1.GetYear())&&(this->Month == d1.GetMonth())&&(this->Day < d1.GetDay()))
         return true;
     else
         return false;
